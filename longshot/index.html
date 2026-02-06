@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longshot - Full-Page Screenshot Capture</title>
+    <meta name="description" content="Capture full-page screenshots with intelligent scroll-and-stitch technology. Privacy-focused, open source Chrome extension.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Longshot - Full-Page Screenshot Capture">
+    <meta property="og:description" content="Capture full-page screenshots with intelligent scroll-and-stitch technology. Privacy-focused, open source.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://privatelink.io/longshot/">
+
+    <style>
+        :root {
+            --purple-primary: #7C3AED;
+            --purple-dark: #5B21B6;
+            --purple-light: #A78BFA;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-600: #4B5563;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--purple-primary), var(--purple-dark));
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="rgba(255,255,255,0.05)"/><path d="M0 0L60 60M60 0L0 60" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 2px solid;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--purple-primary);
+            border-color: white;
+        }
+
+        .btn-white:hover {
+            background: var(--gray-100);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-outline:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+
+        .feature p {
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        .privacy-section {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(91, 33, 182, 0.1));
+            border-left: 4px solid var(--purple-primary);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+        }
+
+        .privacy-section h3 {
+            color: var(--purple-dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .privacy-section p {
+            color: var(--gray-800);
+            line-height: 1.8;
+        }
+
+        .privacy-section a {
+            color: var(--purple-primary);
+            text-decoration: none;
+        }
+
+        .privacy-section a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .footer a:hover {
+            opacity: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-text {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Longshot</h1>
+            <p class="tagline">
+                Capture full-page screenshots using intelligent scroll-and-stitch technology.
+                Professional results with complete privacy.
+            </p>
+            <div class="hero-links">
+                <a href="https://github.com/privatelinkio/longshot" class="btn btn-white">View Source</a>
+                <a href="https://privatelink.io/" class="btn btn-outline">PrivateLink.io</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">Features</h2>
+        <p class="section-subtitle">Everything you need for full-page screenshots, nothing you don't.</p>
+
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">📸</div>
+                <h3>Full-Page Capture</h3>
+                <p>Capture entire web pages from top to bottom, no matter how long they are.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🧩</div>
+                <h3>Smart Stitching</h3>
+                <p>Intelligent scroll-and-stitch algorithm produces seamless, professional results.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💻</div>
+                <h3>Local Processing</h3>
+                <p>All processing happens on your device. No images are uploaded anywhere.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🚫</div>
+                <h3>Zero Tracking</h3>
+                <p>No analytics, no data collection, no external network requests.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔓</div>
+                <h3>Open Source</h3>
+                <p>Fully open source. Inspect every line of code to verify our privacy claims.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightweight</h3>
+                <p>Minimal permissions, fast capture, and a small footprint in your browser.</p>
+            </div>
+        </div>
+
+        <div class="privacy-section">
+            <h3>Privacy First</h3>
+            <p>
+                Longshot collects zero data. Your screenshots never leave your device unless you choose to share them.
+                Read our full <a href="privacy.html">privacy policy</a> for complete details.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://privatelink.io/">PrivateLink.io</a>
+            <a href="https://github.com/privatelinkio/longshot">GitHub</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <p class="footer-text">&copy; 2026 PrivateLink.io | Open Source | Privacy-Focused</p>
+    </footer>
+</body>
+</html>
